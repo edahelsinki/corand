@@ -104,12 +104,12 @@ If both of the values of H1 and H2 for a tile are false, then the tile is ignore
 
 ## Walk-through of the German example
 
-Here we provide a walk-through of the experiment described in Appendix B of 
+Here we provide a walk-through of the experiment described in Puolamäki et al. (2019) or Appendix B of 
 [Puolamäki et al. (2018)](https://arxiv.org/abs/1805.07725). 
 
 After starting the web interface, change the dataset to `socio_economic_germany_cut.rds` by
 choosing it in the `datafile` drop down menu. Then hit the tiling projection` button, after
-which you should reproduce Figure 1.
+which you should reproduce Figure 9.
 
 You can select the yellow points (eastern rural districts) either by mouse or by following clever trick: 
 at the tile table at the bottom right, click with your mouse the number of rows (`sizeR`) of the following
@@ -127,10 +127,9 @@ high unemplyment, low income, and small number of children.
 With the rows and columns selected, add the current tile to the memory by clicking `add current tile` under **tiles**.
 The tile will appear to the tile table under name `user01`. Add the tile to the background information by clicking
 both H1 and H2 for tile `user01` from false to true, and then hit `tiling projection` under **recompute projection**. 
-You should have now produced something similar to Figure 5a. If you click `clear current selection` under both
+You should have now produced something similar to Figure 8. If you click `clear current selection` under both
 **select rows** and **select columns** to clear selections and then click the number of rows (`sizeR`) of `TypeUrban`
-in tile table you should highlight all urban locations. As you notice, they form a distinct cluster (marked with yellow
-in Figure 5b). (Notice that you may not reproduce Figure 5 exactly, because 
+in tile table you should highlight all urban locations. (Notice that you may not reproduce Figure 8 exactly, because 
 the detailed projection depends on the columns chosen!)
 
 
