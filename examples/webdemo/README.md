@@ -108,7 +108,7 @@ Here we provide a walk-through of the experiment described in Puolamäki et al. 
 [Puolamäki et al. (2018)](https://arxiv.org/abs/1805.07725). 
 
 After starting the web interface, change the dataset to `socio_economic_germany_cut.rds` by
-choosing it in the `datafile` drop down menu. Then hit the tiling projection` button, after
+choosing it in the `datafile` drop down menu. Then hit the `tiling projection` button, after
 which you should reproduce Figure 9.
 
 You can select the yellow points (eastern rural districts) either by mouse or by following clever trick: 
