@@ -2,7 +2,7 @@
 
 This repository contains constrained randomization (CORAND) library that has been described in:
 
-> Kai Puolamäki, Emilia Oikarinen, Andreas Henelius, 2019. Guided Visual Exploration of Relations in Data Sets. To appear.
+> Kai Puolamäki, Emilia Oikarinen, Andreas Henelius, 2019. Guided Visual Exploration of Relations in Data Sets. <https://arxiv.org/abs/1905.02515>
 
 Other related manuscripts by us:
 
