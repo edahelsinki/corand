@@ -86,9 +86,9 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
     tiling(n,m,Tm=Tm,Tl=newTl,count=count)
   }
 
-  permute <- function() {
+  permute <- function(keys=ls(Tl)) {
     p <- matrix(1:(n*m),nrow=n,ncol=m)
-    for(key in ls(Tl)) {
+    for(key in keys) {
       R <- Tl[[key]]$R
       C <- Tl[[key]]$C
       if(length(R)>1) p[R,C] <- p[sample(R),C]
@@ -115,7 +115,7 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
     a
   }
 
-  permutedata <- function(x,p=permute(),nmin=n) {
+  permutedata <- function(x,keys=ls(Tl),p=permute(keys=keys),nmin=n) {
     if(is.matrix(x)) {
       if(nmin>n) {
         k <- 1+(nmin-1)%/%dim(x)[1]
@@ -159,6 +159,18 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
     cov2cor(cov_local(x))
   }
 
+  findtiles <- function(R=1:n,C=1:m) {
+    ## find all tiles which interserct R and C
+    ls(Tl)[
+      vapply(ls(Tl),
+             function(key) {
+               ( length(intersect(R,Tl[[key]]$R))>0 &&
+                 length(intersect(C,Tl[[key]]$C))>0 )
+             },
+             TRUE)
+    ]
+  }
+  
   list(add0tile=add0tile,
        addtile=addtile,
        copy=copy,
@@ -166,8 +178,20 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
        permutedata=permutedata,
        cov=cov_local,
        cor=cor_local,
+       findtiles=findtiles,
        status=function() list(n=n,m=m,Tm=Tm,Tl=Tl,count=count))
 }
+## D.matrix <- matrix(1:(5*7),5,7)
+## D.df <- as.data.frame(D.matrix)
+## tt <- tiling(5,7)
+## tt$addtile(R=1:3,C=1:4)
+## tt$status()$Tm
+## tt$permutedata(D.matrix)
+## tt$permutedata(D.matrix)
+## tt$findtiles()
+## tt$findtiles(R=1:2,C=1:3)
+## keys <- tt$findtiles(R=3:4,C=4:5)
+## tt$permutedata(D.df,keys=keys)
 
 #' sorting step in Astrid
 #'
