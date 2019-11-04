@@ -171,6 +171,38 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
     ]
   }
   
+  twocolumn <- function(R=1:n,C=1:2,size=1) {
+    if(length(C)!=2) stop("twocolumn: length(R)!=2")
+    ## Find the relevant tiles for columns 1 and 2
+    k1 <- unique(Tm[R,C[1]])
+    k2 <- unique(Tm[R,C[2]])
+    ## We need only to permute tiles which have at least two rows
+    k1 <- k1[vapply(k1,function(key) length(Tl[[key]]$R)>1,TRUE)]
+    k2 <- k2[vapply(k2,function(key) length(Tl[[key]]$R)>1,TRUE)]
+    ## Separate tiles that occur in only 1 and 2 or in both
+    k12 <- intersect(k1,k2)
+    k1 <- setdiff(k1,k12)
+    k2 <- setdiff(k2,k12)
+    ## Find the rows corresponding to the tiles
+    l1 <- lapply(k1,function(key) Tl[[key]]$R)
+    l2 <- lapply(k2,function(key) Tl[[key]]$R)
+    l12 <- lapply(k12,function(key) Tl[[key]]$R)
+    ## Create size random permutations for the two columns
+    ## x[,a,b] is the ath permutation for column C[b] 
+    x <- array(rep(1:n,2*size),dim=c(n,size,2))
+    for(i in l1) {
+      x[i,,1] <- replicate(size,sample(i))
+    }
+    for(i in l2) {
+      x[i,,2] <- replicate(size,sample(i))
+    }
+    for(i in l12) {
+      x[i,,] <- rep(replicate(size,sample(i)),2)
+    }
+    x
+  }
+  
+  
   list(add0tile=add0tile,
        addtile=addtile,
        copy=copy,
@@ -179,6 +211,7 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
        cov=cov_local,
        cor=cor_local,
        findtiles=findtiles,
+       twocolumn=twocolumn,
        status=function() list(n=n,m=m,Tm=Tm,Tl=Tl,count=count))
 }
 ## D.matrix <- matrix(1:(5*7),5,7)
@@ -192,6 +225,41 @@ tiling <- function(n,m,Tm=NULL,Tl=NULL,count=NULL,df=function(x) paste(x,collaps
 ## tt$findtiles(R=1:2,C=1:3)
 ## keys <- tt$findtiles(R=3:4,C=4:5)
 ## tt$permutedata(D.df,keys=keys)
+
+#' Compute contingency tables
+#' 
+#' @param tt tiling structure
+#' @param c1 column 1 of interest
+#' @param c2 column 2 of interest
+#' @param x1 column 1 as a vector of factors
+#' @param x2 column 2 as a vector of factors
+#' @param size number of samples to obtain
+#' @return Array tab where tab[,,i] is the contingency table from the ith sample.
+#' @export
+conttab <- function(tt,c1,c2,x1,x2,size=1) {
+  tab <- array(0,dim=c(length(levels(x1)),length(levels(x2)),size),
+               dimnames=list(levels(x1),levels(x2),1:size))
+  perm <- tt$twocolumn(C=c(c1,c2),size=size)
+  for(i in 1:size) tab[,,i] <- table(x1[perm[,i,1]],x2[perm[,i,2]])
+  tab
+}
+
+if(FALSE) {
+  n <- 600000
+  x <- data.frame(a=factor(sample(c("a","b","c"),size=n,replace=TRUE),
+                           levels=c("a","b","c")),
+                  b=factor(sample(1:2,size=n,replace=TRUE),
+                           levels=1:2))
+  tt <- tiling(n,2)
+  tt$addtile(R=1:1000,C=1:2)
+  tt$addtile(R=1001:2000,C=1)
+  tt$addtile(R=1500:2500,C=2)
+  a <- system.time({ tab <- conttab(tt,1,2,x[,1],x[,2],size=423) })
+  print(a)
+}
+
+
+
 
 #' sorting step in Astrid
 #'
