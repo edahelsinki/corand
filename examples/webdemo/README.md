@@ -115,7 +115,7 @@ You can select the yellow points (eastern rural districts) either by mouse or by
 at the tile table at the bottom right, click with your mouse the number of rows (`sizeR`) of the following
 tiles: `TypeUrban`, `RegionNorth`, `RegionSouth`, and `RegionWest`. Then click `reverse current selection` 
 under **select rows**. You should now have in your current selection the districts that are both from
-`RegionEast` and of `TypeRural`. (If you make a mistace you can always clear your selection by hitting
+`RegionEast` and of `TypeRural`. (If you make a mistake you can always clear your selection by hitting
 `clear current selection` 
 under **select rows**.)
 
