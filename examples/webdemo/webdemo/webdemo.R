@@ -28,7 +28,7 @@ plotcolors <- c("#1b9e77","#d95f02","#7570b3")
 
 
 dopca <- function(data) {
-  s <- svd(cov(data))
+  s <- svd(cor(data))
   w <- s$u
   ## normalize w so that the mean of PCA vectors is positive
   w <- w*(rep(1,dim(w)[1]) %o%

@@ -220,8 +220,9 @@ shinyServer(function(input,output,session) {
         current$tiles[[sprintf("user%02d",
                                current$count)]] <<- list(R=current$R,
                                                          C=current$C,
-                                                         H1=FALSE,
-                                                         H2=FALSE)
+                                                         H1=TRUE,
+                                                         H2=TRUE)
+	updatetiling()
         current$count <<- current$count+1
         updateall()
     })
