@@ -211,7 +211,7 @@ shinyServer(function(input,output,session) {
                          current$H2$cov(data$data)[ii,ii])
         })
         current$label <<- "T"
-        current$w <<- a$w
+        current$w <<- normw(a$w)
         current$v <<- a$v
         updateall()
     })

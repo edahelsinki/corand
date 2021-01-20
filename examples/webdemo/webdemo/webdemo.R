@@ -26,14 +26,17 @@
 
 plotcolors <- c("#1b9e77","#d95f02","#7570b3")
 
+normw <- function(w) {
+  w*(rep(1,dim(w)[1]) %o%
+            (apply(w,2,
+                   function(x) if(mean(x)>=0) 1/sqrt(sum(x^2)) else -1/sqrt(sum(x^2)))))
+}
 
 dopca <- function(data) {
   s <- svd(cor(data))
   w <- s$u
   ## normalize w so that the mean of PCA vectors is positive
-  w <- w*(rep(1,dim(w)[1]) %o%
-            (apply(w,2,
-                   function(x) if(mean(x)>=0) 1/sqrt(sum(x^2)) else -1/sqrt(sum(x^2)))))
+  w <- normw(w)
   p <- order(s$d,decreasing=TRUE)
   list(w=w[,p],v=s$d[p])
 }
